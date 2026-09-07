@@ -1,19 +1,32 @@
 import React, { useState } from 'react';
 import { useAutomation } from '../../context/AutomationContext';
 import {
-  Settings as SettingsIcon,
   User,
   Building,
   Bell,
   Sparkles,
-  Link,
+  Link as LinkIcon,
   Sun,
-  Shield,
   Check,
-  ToggleLeft,
-  ToggleRight,
-  ExternalLink,
 } from 'lucide-react';
+
+const Switch: React.FC<{ checked: boolean; onChange: (v: boolean) => void }> = ({ checked, onChange }) => (
+  <button
+    type="button"
+    role="switch"
+    aria-checked={checked}
+    onClick={() => onChange(!checked)}
+    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-150 ease-in-out focus:outline-none ${
+      checked ? 'bg-[#18181B]' : 'bg-black/[0.12]'
+    }`}
+  >
+    <span
+      className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-xs ring-0 transition duration-150 ease-in-out ${
+        checked ? 'translate-x-4' : 'translate-x-0'
+      }`}
+    />
+  </button>
+);
 
 export const SettingsPage: React.FC = () => {
   const { showToast } = useAutomation();
@@ -45,38 +58,34 @@ export const SettingsPage: React.FC = () => {
   };
 
   const handleSave = () => {
-    showToast('Settings saved successfully', 'success');
+    showToast('Preferences saved successfully', 'success');
   };
 
   const sections = [
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'workspace', label: 'Workspace', icon: Building },
-    { id: 'ai', label: 'AI Preferences', icon: Sparkles },
-    { id: 'integrations', label: 'Integrations', icon: Link },
+    { id: 'ai', label: 'AI preferences', icon: Sparkles },
+    { id: 'integrations', label: 'Integrations', icon: LinkIcon },
     { id: 'notifications', label: 'Notifications', icon: Bell },
     { id: 'appearance', label: 'Appearance', icon: Sun },
   ];
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-8 space-y-8 select-none">
+    <div className="max-w-5xl mx-auto px-6 py-8 space-y-6 select-none">
       {/* Page Header */}
       <div>
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-[#2547D0] border border-blue-100 mb-1">
-          <SettingsIcon className="w-3 h-3 text-[#2547D0]" />
-          <span>System Settings</span>
-        </div>
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
-          Preferences & Environment
-        </h2>
-        <p className="text-xs sm:text-sm text-slate-600 mt-1">
-          Manage identity, linked platform accounts, inference engines, and security thresholds.
+        <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-[#18181B]">
+          Settings
+        </h1>
+        <p className="text-xs sm:text-sm text-[#71717A] mt-0.5">
+          Manage identity, linked platform accounts, inference engines, and notifications.
         </p>
       </div>
 
       {/* Two-Column Settings Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pt-2">
         {/* Left Navigation Sub-Sidebar */}
-        <div className="space-y-1">
+        <div className="space-y-0.5">
           {sections.map(sec => {
             const Icon = sec.icon;
             const isActive = activeSection === sec.id;
@@ -84,13 +93,13 @@ export const SettingsPage: React.FC = () => {
               <button
                 key={sec.id}
                 onClick={() => setActiveSection(sec.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-control text-xs font-medium transition-colors text-left ${
+                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors text-left ${
                   isActive
-                    ? 'bg-slate-900 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'bg-black/[0.06] text-[#18181B]'
+                    : 'text-[#71717A] hover:text-[#18181B] hover:bg-black/[0.03]'
                 }`}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-3.5 h-3.5" />
                 <span>{sec.label}</span>
               </button>
             );
@@ -98,51 +107,51 @@ export const SettingsPage: React.FC = () => {
         </div>
 
         {/* Right Settings Form Container */}
-        <div className="md:col-span-3 bg-white rounded-panel border border-black/[0.07] p-6 sm:p-8 shadow-subtle space-y-6">
+        <div className="md:col-span-3 bg-white rounded-xl border border-black/[0.07] p-6 sm:p-7 shadow-sm space-y-6">
           {/* Profile Section */}
           {activeSection === 'profile' && (
             <div className="space-y-5 text-left text-xs">
               <div>
-                <h3 className="text-base font-bold text-slate-900">Profile Information</h3>
-                <p className="text-slate-500 mt-0.5">Your personal credentials inside Kairo.</p>
+                <h3 className="text-sm font-semibold text-[#18181B]">Profile</h3>
+                <p className="text-[#71717A] text-xs mt-0.5">Personal details and account credentials.</p>
               </div>
 
-              <div className="flex items-center gap-4 pt-2">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-slate-200 to-slate-100 border border-black/[0.08] flex items-center justify-center text-slate-700 font-bold text-base">
+              <div className="flex items-center gap-4 pt-1">
+                <div className="w-12 h-12 rounded-full bg-[#FAF9F7] border border-black/[0.08] flex items-center justify-center text-[#18181B] font-semibold text-sm">
                   OB
                 </div>
                 <div>
                   <button
                     onClick={() => showToast('Avatar upload simulated', 'info')}
-                    className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200/80 rounded-control font-medium text-slate-700 transition-colors"
+                    className="px-3 py-1.5 bg-black/[0.04] hover:bg-black/[0.07] rounded-md font-medium text-xs text-[#18181B] transition-colors"
                   >
                     Change avatar
                   </button>
-                  <p className="text-[11px] text-slate-400 mt-1">JPG or PNG under 2MB</p>
+                  <p className="text-[11px] text-[#A1A1AA] mt-1">Square JPG, PNG, or GIF up to 2MB</p>
                 </div>
               </div>
 
               <div className="space-y-1.5 pt-2">
-                <label className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                  Full Name
+                <label className="text-xs font-medium text-[#52525B]">
+                  Full name
                 </label>
                 <input
                   type="text"
                   value={profileName}
                   onChange={e => setProfileName(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#F8F9FA] rounded-control border border-black/[0.08] text-slate-900 focus:outline-none focus:border-[#2547D0]"
+                  className="w-full px-3 py-2 bg-white rounded-lg border border-black/[0.08] text-xs text-[#18181B] focus:outline-none focus:border-black/[0.2] transition-colors"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                  Email Address
+                <label className="text-xs font-medium text-[#52525B]">
+                  Email address
                 </label>
                 <input
                   type="email"
                   value={profileEmail}
                   onChange={e => setProfileEmail(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#F8F9FA] rounded-control border border-black/[0.08] text-slate-900 focus:outline-none focus:border-[#2547D0]"
+                  className="w-full px-3 py-2 bg-white rounded-lg border border-black/[0.08] text-xs text-[#18181B] focus:outline-none focus:border-black/[0.2] transition-colors"
                 />
               </div>
             </div>
@@ -152,28 +161,28 @@ export const SettingsPage: React.FC = () => {
           {activeSection === 'workspace' && (
             <div className="space-y-5 text-left text-xs">
               <div>
-                <h3 className="text-base font-bold text-slate-900">Workspace Settings</h3>
-                <p className="text-slate-500 mt-0.5">Control organization name and team isolation.</p>
+                <h3 className="text-sm font-semibold text-[#18181B]">Workspace</h3>
+                <p className="text-[#71717A] text-xs mt-0.5">Manage team namespace and subscription tier.</p>
               </div>
 
-              <div className="space-y-1.5 pt-2">
-                <label className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                  Workspace Name
+              <div className="space-y-1.5 pt-1">
+                <label className="text-xs font-medium text-[#52525B]">
+                  Workspace name
                 </label>
                 <input
                   type="text"
                   value={workspaceName}
                   onChange={e => setWorkspaceName(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#F8F9FA] rounded-control border border-black/[0.08] text-slate-900 focus:outline-none focus:border-[#2547D0]"
+                  className="w-full px-3 py-2 bg-white rounded-lg border border-black/[0.08] text-xs text-[#18181B] focus:outline-none focus:border-black/[0.2] transition-colors"
                 />
               </div>
 
-              <div className="p-3 bg-[#FAFBFD] rounded-control border border-black/[0.06] flex items-center justify-between">
+              <div className="p-3.5 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between">
                 <div>
-                  <div className="font-semibold text-slate-800">Plan: Enterprise Autonomous</div>
-                  <div className="text-[11px] text-slate-500">Unlimited workflow executions & continuous model reasoning</div>
+                  <div className="font-medium text-[#18181B]">Enterprise autonomous tier</div>
+                  <div className="text-[11px] text-[#71717A]">Unlimited workflow executions & continuous model reasoning</div>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
                   Active
                 </span>
               </div>
@@ -184,41 +193,36 @@ export const SettingsPage: React.FC = () => {
           {activeSection === 'ai' && (
             <div className="space-y-5 text-left text-xs">
               <div>
-                <h3 className="text-base font-bold text-slate-900">AI Model Preferences</h3>
-                <p className="text-slate-500 mt-0.5">Default inference models and reasoning guardrails.</p>
+                <h3 className="text-sm font-semibold text-[#18181B]">AI preferences</h3>
+                <p className="text-[#71717A] text-xs mt-0.5">Default inference models and reasoning guardrails.</p>
               </div>
 
-              <div className="space-y-1.5 pt-2">
-                <label className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                  Default Workflow Synthesis Engine
+              <div className="space-y-1.5 pt-1">
+                <label className="text-xs font-medium text-[#52525B]">
+                  Default synthesis engine
                 </label>
                 <select
                   value={aiModel}
                   onChange={e => setAiModel(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#F8F9FA] rounded-control border border-black/[0.08] text-slate-800 font-medium focus:outline-none focus:border-[#2547D0]"
+                  className="w-full px-3 py-2 bg-white rounded-lg border border-black/[0.08] text-xs text-[#18181B] font-medium focus:outline-none focus:border-black/[0.2] transition-colors"
                 >
-                  <option value="kairo-neural-v2">Kairo Neural Engine v2.4 (Ultra Fast, Zero Latency)</option>
+                  <option value="kairo-neural-v2">Kairo Neural Engine v2.4 (Ultra-fast, zero-latency inference)</option>
                   <option value="gemini-1.5-pro">Gemini 1.5 Pro (Extreme 1M token context)</option>
-                  <option value="claude-3.5-sonnet">Claude 3.5 Sonnet (Advanced Logic & Code)</option>
+                  <option value="claude-3.5-sonnet">Claude 3.5 Sonnet (Advanced code & reasoning)</option>
                 </select>
               </div>
 
-              <div className="p-4 bg-[#FAFBFD] rounded-control border border-black/[0.06] flex items-center justify-between">
+              <div className="p-4 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between gap-4">
                 <div>
-                  <div className="font-semibold text-slate-800">Autonomous Low-Risk Execution</div>
-                  <div className="text-[11px] text-slate-500">Automatically run logic when model confidence is &gt; 92% without requiring manual confirmation.</div>
+                  <div className="font-medium text-[#18181B]">Autonomous low-risk execution</div>
+                  <div className="text-[11px] text-[#71717A] mt-0.5 leading-relaxed">
+                    Automatically execute actions when model confidence exceeds 92% without requiring manual confirmation.
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setAutoApproveLowRisk(!autoApproveLowRisk)}
-                  className="text-[#2547D0] hover:text-[#1D3BB5]"
-                >
-                  {autoApproveLowRisk ? (
-                    <ToggleRight className="w-7 h-7" />
-                  ) : (
-                    <ToggleLeft className="w-7 h-7 text-slate-300" />
-                  )}
-                </button>
+                <Switch
+                  checked={autoApproveLowRisk}
+                  onChange={setAutoApproveLowRisk}
+                />
               </div>
             </div>
           )}
@@ -227,28 +231,28 @@ export const SettingsPage: React.FC = () => {
           {activeSection === 'integrations' && (
             <div className="space-y-5 text-left text-xs">
               <div>
-                <h3 className="text-base font-bold text-slate-900">Connected Services</h3>
-                <p className="text-slate-500 mt-0.5">Authorize access to cloud platforms used in workflow triggers and actions.</p>
+                <h3 className="text-sm font-semibold text-[#18181B]">Connected integrations</h3>
+                <p className="text-[#71717A] text-xs mt-0.5">Authorize access to cloud platforms used in workflow triggers and actions.</p>
               </div>
 
-              <div className="space-y-3 pt-2">
+              <div className="space-y-2.5 pt-1">
                 {/* Gmail / Workspace */}
-                <div className="p-3.5 bg-[#FAFBFD] rounded-control border border-black/[0.06] flex items-center justify-between">
+                <div className="p-3.5 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-control bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs">
+                    <div className="w-7 h-7 rounded-md bg-white border border-black/[0.06] text-[#2D44D8] flex items-center justify-center font-semibold text-xs">
                       G
                     </div>
                     <div>
-                      <div className="font-semibold text-slate-900">Google Workspace (Gmail & Drive)</div>
-                      <div className="text-[11px] text-slate-500">Allows reading incoming messages & uploading files</div>
+                      <div className="font-medium text-[#18181B]">Google Workspace</div>
+                      <div className="text-[11px] text-[#71717A]">Gmail inbound triggers & Drive document storage</div>
                     </div>
                   </div>
                   <button
                     onClick={() => toggleService('gmail')}
-                    className={`px-3 py-1 text-xs font-semibold rounded-control transition-colors ${
+                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
                       connectedServices.gmail
-                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
+                        : 'text-[#52525B] bg-white border border-black/[0.08] hover:bg-black/[0.03]'
                     }`}
                   >
                     {connectedServices.gmail ? 'Connected' : 'Connect'}
@@ -256,22 +260,22 @@ export const SettingsPage: React.FC = () => {
                 </div>
 
                 {/* Slack */}
-                <div className="p-3.5 bg-[#FAFBFD] rounded-control border border-black/[0.06] flex items-center justify-between">
+                <div className="p-3.5 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-control bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-xs">
+                    <div className="w-7 h-7 rounded-md bg-white border border-black/[0.06] text-purple-600 flex items-center justify-center font-semibold text-xs">
                       S
                     </div>
                     <div>
-                      <div className="font-semibold text-slate-900">Slack Workspace</div>
-                      <div className="text-[11px] text-slate-500">Allows sending smart summaries & executive alerts</div>
+                      <div className="font-medium text-[#18181B]">Slack</div>
+                      <div className="text-[11px] text-[#71717A]">Channel alerts, thread summaries, and notifications</div>
                     </div>
                   </div>
                   <button
                     onClick={() => toggleService('slack')}
-                    className={`px-3 py-1 text-xs font-semibold rounded-control transition-colors ${
+                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
                       connectedServices.slack
-                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
+                        : 'text-[#52525B] bg-white border border-black/[0.08] hover:bg-black/[0.03]'
                     }`}
                   >
                     {connectedServices.slack ? 'Connected' : 'Connect'}
@@ -279,22 +283,22 @@ export const SettingsPage: React.FC = () => {
                 </div>
 
                 {/* Notion */}
-                <div className="p-3.5 bg-[#FAFBFD] rounded-control border border-black/[0.06] flex items-center justify-between">
+                <div className="p-3.5 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-control bg-slate-100 text-slate-800 flex items-center justify-center font-bold text-xs">
+                    <div className="w-7 h-7 rounded-md bg-white border border-black/[0.06] text-[#18181B] flex items-center justify-center font-semibold text-xs">
                       N
                     </div>
                     <div>
-                      <div className="font-semibold text-slate-900">Notion Workspace</div>
-                      <div className="text-[11px] text-slate-500">Syncs extracted notes, tasks, and document tables</div>
+                      <div className="font-medium text-[#18181B]">Notion</div>
+                      <div className="text-[11px] text-[#71717A]">Sync structured database entries & meeting notes</div>
                     </div>
                   </div>
                   <button
                     onClick={() => toggleService('notion')}
-                    className={`px-3 py-1 text-xs font-semibold rounded-control transition-colors ${
+                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
                       connectedServices.notion
-                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
+                        : 'text-[#52525B] bg-white border border-black/[0.08] hover:bg-black/[0.03]'
                     }`}
                   >
                     {connectedServices.notion ? 'Connected' : 'Connect'}
@@ -302,22 +306,22 @@ export const SettingsPage: React.FC = () => {
                 </div>
 
                 {/* GitHub */}
-                <div className="p-3.5 bg-[#FAFBFD] rounded-control border border-black/[0.06] flex items-center justify-between">
+                <div className="p-3.5 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-control bg-slate-900 text-white flex items-center justify-center font-bold text-xs">
+                    <div className="w-7 h-7 rounded-md bg-white border border-black/[0.06] text-[#18181B] flex items-center justify-center font-semibold text-xs">
                       GH
                     </div>
                     <div>
-                      <div className="font-semibold text-slate-900">GitHub Enterprise</div>
-                      <div className="text-[11px] text-slate-500">Trigger workflows on pull requests, issues, and deployments</div>
+                      <div className="font-medium text-[#18181B]">GitHub</div>
+                      <div className="text-[11px] text-[#71717A]">Triggers on PRs, release tags, and CI runs</div>
                     </div>
                   </div>
                   <button
                     onClick={() => toggleService('github')}
-                    className={`px-3 py-1 text-xs font-semibold rounded-control transition-colors ${
+                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
                       connectedServices.github
-                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
+                        : 'text-[#52525B] bg-white border border-black/[0.08] hover:bg-black/[0.03]'
                     }`}
                   >
                     {connectedServices.github ? 'Connected' : 'Connect'}
@@ -331,45 +335,31 @@ export const SettingsPage: React.FC = () => {
           {activeSection === 'notifications' && (
             <div className="space-y-5 text-left text-xs">
               <div>
-                <h3 className="text-base font-bold text-slate-900">Notification Routing</h3>
-                <p className="text-slate-500 mt-0.5">Control where error alerts and milestone reports are dispatched.</p>
+                <h3 className="text-sm font-semibold text-[#18181B]">Notifications</h3>
+                <p className="text-[#71717A] text-xs mt-0.5">Control where alerts and milestone reports are dispatched.</p>
               </div>
 
-              <div className="space-y-3 pt-2">
-                <div className="p-3.5 bg-[#FAFBFD] rounded-control border border-black/[0.06] flex items-center justify-between">
+              <div className="space-y-3 pt-1">
+                <div className="p-4 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between gap-4">
                   <div>
-                    <div className="font-semibold text-slate-800">Email Digest Notifications</div>
-                    <div className="text-[11px] text-slate-500">Receive summary of daily tasks automated every evening.</div>
+                    <div className="font-medium text-[#18181B]">Daily executive digest</div>
+                    <div className="text-[11px] text-[#71717A] mt-0.5">Summary of all automated tasks delivered each evening.</div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setEmailAlerts(!emailAlerts)}
-                    className="text-[#2547D0]"
-                  >
-                    {emailAlerts ? (
-                      <ToggleRight className="w-7 h-7" />
-                    ) : (
-                      <ToggleLeft className="w-7 h-7 text-slate-300" />
-                    )}
-                  </button>
+                  <Switch
+                    checked={emailAlerts}
+                    onChange={setEmailAlerts}
+                  />
                 </div>
 
-                <div className="p-3.5 bg-[#FAFBFD] rounded-control border border-black/[0.06] flex items-center justify-between">
+                <div className="p-4 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between gap-4">
                   <div>
-                    <div className="font-semibold text-slate-800">Slack Instant Alerts for Attention Items</div>
-                    <div className="text-[11px] text-slate-500">Receive an urgent notification whenever a workflow requires human review.</div>
+                    <div className="font-medium text-[#18181B]">Slack alerts for attention items</div>
+                    <div className="text-[11px] text-[#71717A] mt-0.5">Immediate notifications when a workflow requires human intervention.</div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setSlackAlerts(!slackAlerts)}
-                    className="text-[#2547D0]"
-                  >
-                    {slackAlerts ? (
-                      <ToggleRight className="w-7 h-7" />
-                    ) : (
-                      <ToggleLeft className="w-7 h-7 text-slate-300" />
-                    )}
-                  </button>
+                  <Switch
+                    checked={slackAlerts}
+                    onChange={setSlackAlerts}
+                  />
                 </div>
               </div>
             </div>
@@ -379,16 +369,16 @@ export const SettingsPage: React.FC = () => {
           {activeSection === 'appearance' && (
             <div className="space-y-5 text-left text-xs">
               <div>
-                <h3 className="text-base font-bold text-slate-900">Design System & Theme</h3>
-                <p className="text-slate-500 mt-0.5">Visual personality of your Kairo workspace.</p>
+                <h3 className="text-sm font-semibold text-[#18181B]">Appearance</h3>
+                <p className="text-[#71717A] text-xs mt-0.5">Visual personality of your Kairo workspace.</p>
               </div>
 
-              <div className="p-4 bg-blue-50/50 rounded-control border border-blue-100 flex items-start gap-3">
-                <Sun className="w-5 h-5 text-[#2547D0] shrink-0 mt-0.5" />
-                <div>
-                  <div className="font-semibold text-slate-900">Light Mode Design Standard</div>
-                  <div className="text-slate-600 mt-1 leading-relaxed">
-                    Kairo is deliberately architected using a calm, high-precision light theme grounded in Apple Human Interface Guidelines and modern SaaS principles.
+              <div className="p-4 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-start gap-3">
+                <Sun className="w-4 h-4 text-[#2D44D8] shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <div className="font-medium text-[#18181B]">Apple HIG Light Mode Standard</div>
+                  <div className="text-[#71717A] text-xs leading-relaxed">
+                    Kairo is deliberately architected using a calm, high-precision light theme grounded in Apple Human Interface Guidelines and modern SaaS principles. Contrast, typography, and whitespace are mathematically calibrated for long-session cognitive clarity.
                   </div>
                 </div>
               </div>
@@ -399,10 +389,10 @@ export const SettingsPage: React.FC = () => {
           <div className="pt-4 border-t border-black/[0.05] flex justify-end">
             <button
               onClick={handleSave}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-[#2547D0] hover:bg-[#1D3BB5] rounded-control shadow-xs transition-colors"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-white bg-[#18181B] hover:bg-[#27272A] rounded-lg shadow-sm transition-all active:scale-[0.98]"
             >
               <Check className="w-3.5 h-3.5" />
-              <span>Save Preferences</span>
+              <span>Save preferences</span>
             </button>
           </div>
         </div>

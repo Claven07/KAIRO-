@@ -4,22 +4,24 @@
 
 @layer base {
   :root {
-    --bg-kairo: #F8F9FA;
+    --bg-kairo: #FAF9F7;
     --surface-kairo: #FFFFFF;
-    --border-kairo: rgba(0, 0, 0, 0.07);
+    --subtle-kairo: #F4F3F0;
+    --border-kairo: rgba(0, 0, 0, 0.06);
+    --border-strong: rgba(0, 0, 0, 0.12);
   }
 
   * {
-    border-color: rgba(0, 0, 0, 0.07);
+    border-color: rgba(0, 0, 0, 0.06);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background-color: #F8F9FA;
-    color: #0F172A;
+    background-color: #FAF9F7;
+    color: #18181B;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    letter-spacing: -0.011em;
+    letter-spacing: -0.012em;
     overflow-x: hidden;
   }
 
@@ -29,23 +31,29 @@
     display: flex;
     flex-direction: column;
   }
+
+  /* Accessible focus rings */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #FAF9F7, 0 0 0 4px rgba(45, 68, 216, 0.35);
+  }
 }
 
-/* Custom subtle canvas grid */
+/* Custom subtle canvas grid (restrained Apple HIG aesthetic) */
 .bg-dot-grid {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 .bg-dot-grid-fine {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
   background-size: 16px 16px;
 }
 
-/* Apple-style thin custom scrollbar */
+/* Thin Apple-style custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -58,24 +66,24 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.22);
 }
 
-/* Subtle glowing pulse */
+/* Subtle workflow connection pulse */
 @keyframes flow-dash {
   to {
-    stroke-dashoffset: -24;
+    stroke-dashoffset: -20;
   }
 }
 
 .animate-flow-dash {
-  stroke-dasharray: 6, 6;
-  animation: flow-dash 1.2s linear infinite;
+  stroke-dasharray: 4, 6;
+  animation: flow-dash 1.4s linear infinite;
 }
 
-/* Smooth glass surface */
+/* Subtle surface glass backdrop */
 .glass-surface {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }

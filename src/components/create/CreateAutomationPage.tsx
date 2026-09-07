@@ -9,10 +9,12 @@ import {
   BarChart3,
   FileSpreadsheet,
   Calendar,
-  CheckCircle2,
+  Check,
   Loader2,
-  Layers,
-  Cpu,
+  Zap,
+  Brain,
+  GitFork,
+  Send,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -26,7 +28,7 @@ export const CreateAutomationPage: React.FC = () => {
   } = useAutomation();
 
   const [promptText, setPromptText] = useState(
-    'When I receive an important email, analyze its priority, summarize it, and notify me.'
+    'When I receive an important email, analyze its priority, summarize it, and notify me on Slack.'
   );
   const [isVoiceActive, setIsVoiceActive] = useState(false);
 
@@ -34,30 +36,30 @@ export const CreateAutomationPage: React.FC = () => {
     {
       id: 'email',
       icon: Mail,
-      title: 'Smart Email Assistant',
-      description: 'Filter high-priority emails, generate summaries, and notify Slack',
-      prompt: 'When I receive an important email, analyze its priority, summarize it, and notify me.',
+      title: 'Smart Email Prioritization',
+      description: 'Filter high-priority inbound messages, extract key entities, and notify Slack',
+      prompt: 'When I receive an important email, analyze its priority, summarize it, and notify me on Slack.',
     },
     {
       id: 'reports',
       icon: BarChart3,
-      title: 'Automated Reports',
-      description: 'Synthesize Stripe revenue, GA4 web analytics into daily leadership briefing',
-      prompt: 'Every day at 6 PM, collect data across Stripe and GA4, then generate an executive report.',
+      title: 'Daily Revenue & Analytics Brief',
+      description: 'Synthesize Stripe revenue, GA4 web analytics into daily leadership summary',
+      prompt: 'Every day at 6 PM, collect data across Stripe and GA4, then generate an executive summary report.',
     },
     {
       id: 'documents',
       icon: FileSpreadsheet,
-      title: 'Document Intelligence',
-      description: 'Extract tables, invoice details, and vendor dates directly from PDFs',
-      prompt: 'When a new invoice PDF is added to Drive, extract vendor, total, line items, and route to finance.',
+      title: 'Invoice & Document Parsing',
+      description: 'Extract line items, tax IDs, and vendor dates directly from PDF uploads',
+      prompt: 'When a new invoice PDF is added to Google Drive, extract vendor, total amount, and route to finance.',
     },
     {
       id: 'meetings',
       icon: Calendar,
-      title: 'Meeting Intelligence',
+      title: 'Meeting Action Extraction',
       description: 'Transcribe recordings, detect action points, and assign Linear tickets',
-      prompt: 'When a Zoom meeting concludes, transcribe the recording, extract deliverables, and post tasks to Linear.',
+      prompt: 'When a Zoom meeting concludes, transcribe the audio, extract deliverables, and post tasks to Linear.',
     },
   ];
 
@@ -73,109 +75,123 @@ export const CreateAutomationPage: React.FC = () => {
       showToast('Voice dictation active. Speak clearly...', 'info');
       setTimeout(() => {
         setPromptText(
-          'When I receive an important email, analyze its priority, summarize it, and notify me.'
+          'When I receive an urgent customer inquiry, analyze sentiment, draft a personalized response, and alert account lead.'
         );
         setIsVoiceActive(false);
-        showToast('Voice input processed successfully', 'success');
+        showToast('Voice input transcribed successfully', 'success');
       }, 2200);
     } else {
       setIsVoiceActive(false);
     }
   };
 
+  const synthesisStages = [
+    { step: 1, title: 'Understanding intent & parameters', node: 'Trigger' },
+    { step: 2, title: 'Identifying trigger event & data schema', node: 'Ingress' },
+    { step: 3, title: 'Synthesizing reasoning & decision logic', node: 'Intelligence' },
+    { step: 4, title: 'Configuring downstream actions & integrations', node: 'Dispatch' },
+    { step: 5, title: 'Validating workflow integrity & compiling graph', node: 'Complete' },
+  ];
+
+  const miniNodes = [
+    { id: 't1', icon: Zap, label: 'Gmail Inbound', type: 'Trigger', activeAt: 2 },
+    { id: 'i1', icon: Brain, label: 'Priority Classifier', type: 'Intelligence', activeAt: 3 },
+    { id: 'd1', icon: GitFork, label: 'High Priority Filter', type: 'Decision', activeAt: 4 },
+    { id: 'a1', icon: Send, label: 'Post to #leads', type: 'Action', activeAt: 5 },
+  ];
+
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 space-y-12">
+    <div className="max-w-3xl mx-auto px-6 py-12 space-y-12">
       <AnimatePresence mode="wait">
         {!isGenerating ? (
           <motion.div
-            key="input-form"
-            initial={{ opacity: 0, y: 15 }}
+            key="composer"
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className="space-y-10"
           >
-            {/* Headline */}
-            <div className="text-center space-y-3 max-w-2xl mx-auto">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-                <span>Natural Language Workflow Engine</span>
+            {/* Header / Objective */}
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-1.5 text-xs font-medium text-[#52525B]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2D44D8]" />
+                <span>Workflow Composer</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
-                Describe what you want to automate.
-              </h2>
-              <p className="text-sm sm:text-base text-slate-600">
-                Kairo understands your intent and designs the workflow for you.
+              <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#18181B]">
+                What do you want to automate?
+              </h1>
+              <p className="text-sm text-[#71717A] max-w-lg leading-relaxed">
+                Describe your objective in plain English. Kairo will interpret the intent,
+                resolve schemas, and construct an executable workflow graph.
               </p>
             </div>
 
-            {/* Main AI Input Interface */}
+            {/* Prompt Composer */}
             <form onSubmit={handleSubmit} className="relative">
-              <div className="bg-white rounded-panel border border-black/[0.09] shadow-command p-4 sm:p-6 focus-within:border-[#2547D0] focus-within:ring-4 focus-within:ring-indigo-500/10 transition-all">
-                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                  Automation Intent
-                </label>
-                <textarea
-                  value={promptText}
-                  onChange={e => setPromptText(e.target.value)}
-                  rows={4}
-                  placeholder="Describe your automation in plain language (e.g. When I receive an important email, analyze its priority, summarize it, and notify me.)"
-                  className="w-full text-base text-slate-900 placeholder:text-slate-400 bg-transparent resize-none outline-none leading-relaxed"
-                  onKeyDown={e => {
-                    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-                      handleSubmit();
-                    }
-                  }}
-                />
+              <div className="bg-white rounded-2xl border border-black/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.04)] focus-within:border-black/[0.2] focus-within:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all overflow-hidden">
+                <div className="p-5 pb-3">
+                  <textarea
+                    value={promptText}
+                    onChange={e => setPromptText(e.target.value)}
+                    rows={4}
+                    placeholder="e.g. When a new customer signs up, check if their company size is over 50. If so, create an opportunity in Salesforce and send an alert to the VIP channel in Slack."
+                    className="w-full text-sm sm:text-base text-[#18181B] placeholder:text-[#A1A1AA] bg-transparent resize-none outline-none leading-relaxed"
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                        handleSubmit();
+                      }
+                    }}
+                  />
+                </div>
 
-                <div className="pt-4 mt-2 border-t border-black/[0.05] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div className="flex items-center gap-1 text-slate-500">
+                {/* Composer Footer Actions */}
+                <div className="px-5 py-3.5 bg-[#FAF9F7]/70 border-t border-black/[0.05] flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-1.5 text-[#71717A]">
                     <button
                       type="button"
                       onClick={() => showToast('Attachment options loaded', 'info')}
-                      className="p-2 hover:text-slate-800 rounded-control hover:bg-slate-100 transition-colors"
-                      title="Attach documents or data schemas"
+                      className="p-1.5 hover:text-[#18181B] rounded-md hover:bg-black/[0.05] transition-colors"
+                      title="Attach sample payload or schema"
                     >
                       <Paperclip className="w-4 h-4" />
                     </button>
                     <button
                       type="button"
                       onClick={handleVoiceToggle}
-                      className={`p-2 rounded-control transition-colors ${
+                      className={`p-1.5 rounded-md transition-colors ${
                         isVoiceActive
                           ? 'text-red-600 bg-red-50 ring-1 ring-red-200 animate-pulse'
-                          : 'hover:text-slate-800 hover:bg-slate-100'
+                          : 'hover:text-[#18181B] hover:bg-black/[0.05]'
                       }`}
-                      title="Dictate prompt with voice"
+                      title="Voice dictation"
                     >
                       <Mic className="w-4 h-4" />
                     </button>
-                    <span className="text-xs text-slate-400 ml-2 hidden sm:inline">
-                      Press ⌘ + Enter to generate
+                    <span className="text-[11px] text-[#A1A1AA] ml-2 hidden sm:inline">
+                      Press <kbd className="px-1.5 py-0.5 rounded bg-black/[0.04] border border-black/[0.06] font-mono text-[10px]">⌘</kbd> + <kbd className="px-1.5 py-0.5 rounded bg-black/[0.04] border border-black/[0.06] font-mono text-[10px]">↵</kbd> to build
                     </span>
                   </div>
 
                   <button
                     type="submit"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-[#2547D0] hover:bg-[#1D3BB5] rounded-control shadow-sm transition-all active:scale-[0.98]"
+                    className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-white bg-[#18181B] hover:bg-[#27272A] rounded-lg shadow-sm transition-all active:scale-[0.98]"
                   >
-                    <Sparkles className="w-4 h-4" />
+                    <Sparkles className="w-3.5 h-3.5 text-indigo-300" />
                     <span>Generate Workflow</span>
                   </button>
                 </div>
               </div>
             </form>
 
-            {/* Example Suggestions */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Example Suggestions
-                </span>
-                <span className="text-xs text-slate-400">Click to populate prompt</span>
+            {/* Suggestions */}
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center justify-between text-xs text-[#71717A]">
+                <span className="font-medium text-[#52525B]">Suggested blueprints</span>
+                <span>Select to populate</span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {suggestions.map(s => {
                   const Icon = s.icon;
                   return (
@@ -183,17 +199,20 @@ export const CreateAutomationPage: React.FC = () => {
                       key={s.id}
                       type="button"
                       onClick={() => setPromptText(s.prompt)}
-                      className="text-left p-4 bg-white rounded-card border border-black/[0.07] hover:border-indigo-300 hover:shadow-subtle transition-all group"
+                      className="group text-left p-4 bg-white rounded-xl border border-black/[0.06] hover:border-black/[0.15] hover:shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-control bg-slate-100 group-hover:bg-indigo-50 text-slate-600 group-hover:text-[#2547D0] flex items-center justify-center shrink-0 transition-colors">
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-[#FAF9F7] border border-black/[0.05] text-[#52525B] group-hover:text-[#2D44D8] group-hover:border-[#2D44D8]/20 flex items-center justify-center shrink-0 transition-colors">
                           <Icon className="w-4 h-4" />
                         </div>
-                        <div className="min-w-0">
-                          <h4 className="text-sm font-semibold text-slate-900 group-hover:text-[#2547D0] transition-colors">
-                            {s.title}
-                          </h4>
-                          <p className="text-xs text-slate-500 truncate mt-0.5">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-xs font-medium text-[#18181B] group-hover:text-[#2D44D8] transition-colors">
+                              {s.title}
+                            </h4>
+                            <ArrowRight className="w-3 h-3 text-[#A1A1AA] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                          </div>
+                          <p className="text-[11px] text-[#71717A] line-clamp-2 mt-1 leading-relaxed">
                             {s.description}
                           </p>
                         </div>
@@ -205,145 +224,116 @@ export const CreateAutomationPage: React.FC = () => {
             </div>
           </motion.div>
         ) : (
-          /* PREMIUM AI PROCESSING EXPERIENCE */
+          /* MULTI-STAGE SYNTHESIS EXPERIENCE */
           <motion.div
-            key="processing-view"
+            key="synthesizer"
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.4 }}
-            className="p-8 sm:p-12 bg-white rounded-panel border border-black/[0.08] shadow-command relative overflow-hidden text-center max-w-2xl mx-auto"
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="p-8 sm:p-10 bg-white rounded-2xl border border-black/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.06)] relative overflow-hidden"
           >
-            {/* Subtle glow background */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-40 bg-indigo-100/50 blur-3xl rounded-full pointer-events-none" />
-
-            <div className="relative z-10 space-y-6">
-              {/* Spinner/Icon badge */}
-              <div className="w-12 h-12 rounded-panel bg-indigo-50 border border-indigo-200/80 text-[#2547D0] flex items-center justify-center mx-auto shadow-subtle">
-                <Sparkles className="w-6 h-6 animate-pulse" />
-              </div>
-
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
-                  Kairo is designing your workflow
+            <div className="space-y-8">
+              {/* Status Header */}
+              <div className="text-center space-y-2">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-[#2D44D8]/[0.08] text-[#2D44D8]">
+                  <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+                  <span>Synthesizing Workflow</span>
+                </div>
+                <h3 className="text-xl font-semibold tracking-tight text-[#18181B]">
+                  Analyzing intent & constructing graph
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-500 mt-1.5 font-mono max-w-md mx-auto line-clamp-1">
+                <p className="text-xs text-[#71717A] max-w-md mx-auto line-clamp-1 font-mono">
                   "{generationPrompt || promptText}"
                 </p>
               </div>
 
-              {/* Step by step checklist */}
-              <div className="w-full max-w-md mx-auto bg-[#FAFBFD] rounded-card border border-black/[0.06] p-5 text-left space-y-3.5">
-                {/* Step 1 */}
-                <div className="flex items-center gap-3 text-xs sm:text-sm">
-                  {generationStep >= 1 ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  ) : (
-                    <div className="w-4 h-4 rounded-full border border-slate-300 shrink-0" />
-                  )}
-                  <span
-                    className={
-                      generationStep >= 1
-                        ? 'font-medium text-slate-800'
-                        : 'text-slate-400'
-                    }
-                  >
-                    Understanding your objective
-                  </span>
+              {/* Emerging Workflow Graph Preview */}
+              <div className="p-4 bg-[#FAF9F7] rounded-xl border border-black/[0.05]">
+                <div className="text-[10px] font-medium text-[#71717A] uppercase tracking-wider mb-3 text-center">
+                  Live Graph Assembly
                 </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {miniNodes.map((n) => {
+                    const NodeIcon = n.icon;
+                    const isConstructed = generationStep >= n.activeAt;
+                    const isCurrent = generationStep === n.activeAt - 1;
 
-                {/* Step 2 */}
-                <div className="flex items-center gap-3 text-xs sm:text-sm">
-                  {generationStep >= 2 ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  ) : generationStep === 1 ? (
-                    <Loader2 className="w-4 h-4 text-indigo-600 animate-spin shrink-0" />
-                  ) : (
-                    <div className="w-4 h-4 rounded-full border border-slate-300 shrink-0" />
-                  )}
-                  <span
-                    className={
-                      generationStep >= 2
-                        ? 'font-medium text-slate-800'
-                        : generationStep === 1
-                        ? 'font-medium text-indigo-700'
-                        : 'text-slate-400'
-                    }
-                  >
-                    Identifying the trigger
-                  </span>
-                </div>
-
-                {/* Step 3 */}
-                <div className="flex items-center gap-3 text-xs sm:text-sm">
-                  {generationStep >= 3 ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  ) : generationStep === 2 ? (
-                    <Loader2 className="w-4 h-4 text-indigo-600 animate-spin shrink-0" />
-                  ) : (
-                    <div className="w-4 h-4 rounded-full border border-slate-300 shrink-0" />
-                  )}
-                  <span
-                    className={
-                      generationStep >= 3
-                        ? 'font-medium text-slate-800'
-                        : generationStep === 2
-                        ? 'font-medium text-indigo-700'
-                        : 'text-slate-400'
-                    }
-                  >
-                    Designing automation logic
-                  </span>
-                </div>
-
-                {/* Step 4 */}
-                <div className="flex items-center gap-3 text-xs sm:text-sm">
-                  {generationStep >= 4 ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  ) : generationStep === 3 ? (
-                    <Loader2 className="w-4 h-4 text-indigo-600 animate-spin shrink-0" />
-                  ) : (
-                    <div className="w-4 h-4 rounded-full border border-slate-300 shrink-0" />
-                  )}
-                  <span
-                    className={
-                      generationStep >= 4
-                        ? 'font-medium text-slate-800'
-                        : generationStep === 3
-                        ? 'font-medium text-indigo-700'
-                        : 'text-slate-400'
-                    }
-                  >
-                    Selecting actions
-                  </span>
-                </div>
-
-                {/* Step 5 */}
-                <div className="flex items-center gap-3 text-xs sm:text-sm">
-                  {generationStep >= 5 ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  ) : generationStep === 4 ? (
-                    <Loader2 className="w-4 h-4 text-indigo-600 animate-spin shrink-0" />
-                  ) : (
-                    <div className="w-4 h-4 rounded-full border border-slate-300 shrink-0" />
-                  )}
-                  <span
-                    className={
-                      generationStep >= 5
-                        ? 'font-medium text-slate-800'
-                        : generationStep === 4
-                        ? 'font-medium text-indigo-700'
-                        : 'text-slate-400'
-                    }
-                  >
-                    Optimizing workflow
-                  </span>
+                    return (
+                      <div
+                        key={n.id}
+                        className={`p-3 rounded-lg border text-center transition-all ${
+                          isConstructed
+                            ? 'bg-white border-[#2D44D8]/20 shadow-sm'
+                            : isCurrent
+                            ? 'bg-white/60 border-[#2D44D8]/30 ring-1 ring-[#2D44D8]/20 animate-pulse'
+                            : 'bg-transparent border-dashed border-black/[0.08] opacity-40'
+                        }`}
+                      >
+                        <div className="flex items-center justify-center mb-1.5">
+                          <div
+                            className={`w-7 h-7 rounded-md flex items-center justify-center ${
+                              isConstructed
+                                ? 'bg-[#2D44D8]/10 text-[#2D44D8]'
+                                : 'bg-black/[0.04] text-[#71717A]'
+                            }`}
+                          >
+                            <NodeIcon className="w-3.5 h-3.5" />
+                          </div>
+                        </div>
+                        <div className="text-[10px] font-semibold text-[#18181B] truncate">
+                          {n.label}
+                        </div>
+                        <div className="text-[9px] text-[#71717A]">
+                          {n.type}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
-              <div className="pt-2 flex items-center justify-center gap-2 text-xs text-slate-500">
-                <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
-                <span>Synthesizing parameters and verifying execution graph...</span>
+              {/* Synthesis Steps List */}
+              <div className="space-y-2.5 max-w-md mx-auto">
+                {synthesisStages.map((stage) => {
+                  const isDone = generationStep > stage.step;
+                  const isActive = generationStep === stage.step;
+
+                  return (
+                    <div
+                      key={stage.step}
+                      className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs transition-colors ${
+                        isActive
+                          ? 'bg-[#2D44D8]/[0.06] text-[#18181B]'
+                          : isDone
+                          ? 'text-[#52525B]'
+                          : 'text-[#A1A1AA]'
+                      }`}
+                    >
+                      <div className="shrink-0">
+                        {isDone ? (
+                          <div className="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center">
+                            <Check className="w-2.5 h-2.5" />
+                          </div>
+                        ) : isActive ? (
+                          <Loader2 className="w-4 h-4 text-[#2D44D8] animate-spin" />
+                        ) : (
+                          <div className="w-4 h-4 rounded-full border border-black/[0.12]" />
+                        )}
+                      </div>
+                      <span className={`flex-1 ${isActive ? 'font-medium text-[#18181B]' : ''}`}>
+                        {stage.title}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Live status footer */}
+              <div className="text-center">
+                <span className="text-[11px] text-[#71717A] font-mono">
+                  Compiling runtime AST and validating token pathways...
+                </span>
               </div>
             </div>
           </motion.div>
