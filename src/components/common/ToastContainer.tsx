@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAutomation } from '../../context/AutomationContext';
-import { CheckCircle2, Info, AlertTriangle } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 export const ToastContainer: React.FC = () => {
   const { toasts } = useAutomation();
@@ -13,18 +13,18 @@ export const ToastContainer: React.FC = () => {
         return (
           <div
             key={toast.id}
-            className="pointer-events-auto flex items-center gap-2.5 px-3.5 py-2 bg-[#18181B] text-white rounded-xl border border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.15)] text-xs font-medium animate-in fade-in slide-in-from-bottom-2 duration-150"
+            className="pointer-events-auto flex items-center gap-2.5 px-3.5 py-2 bg-graphite text-white rounded-md border border-white/10 shadow-float text-xs font-mono animate-in fade-in slide-in-from-bottom-2 duration-150"
           >
             {toast.type === 'success' && (
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-status-success shrink-0" />
             )}
             {toast.type === 'info' && (
-              <Info className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+              <ShieldCheck className="w-3.5 h-3.5 text-accent shrink-0" />
             )}
             {toast.type === 'warning' && (
               <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
             )}
-            <span className="text-xs text-[#FAFAFA]">{toast.message}</span>
+            <span className="text-xs text-slate-100">{toast.message}</span>
           </div>
         );
       })}

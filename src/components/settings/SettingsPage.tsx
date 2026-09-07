@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useAutomation } from '../../context/AutomationContext';
 import {
   User,
-  Building,
+  ShieldCheck,
   Bell,
   Sparkles,
   Link as LinkIcon,
   Sun,
   Check,
+  Server,
+  Lock,
 } from 'lucide-react';
 
 const Switch: React.FC<{ checked: boolean; onChange: (v: boolean) => void }> = ({ checked, onChange }) => (
@@ -16,8 +18,8 @@ const Switch: React.FC<{ checked: boolean; onChange: (v: boolean) => void }> = (
     role="switch"
     aria-checked={checked}
     onClick={() => onChange(!checked)}
-    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-150 ease-in-out focus:outline-none ${
-      checked ? 'bg-[#18181B]' : 'bg-black/[0.12]'
+    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-150 ease-in-out focus:outline-none pressable ${
+      checked ? 'bg-graphite' : 'bg-black/[0.12]'
     }`}
   >
     <span
@@ -30,12 +32,14 @@ const Switch: React.FC<{ checked: boolean; onChange: (v: boolean) => void }> = (
 
 export const SettingsPage: React.FC = () => {
   const { showToast } = useAutomation();
-  const [activeSection, setActiveSection] = useState('profile');
+  const [activeSection, setActiveSection] = useState('enclave');
 
   // Interactive settings state
   const [profileName, setProfileName] = useState('Omansh Bhatnagar');
-  const [profileEmail, setProfileEmail] = useState('omansh@kairo.ai');
-  const [workspaceName, setWorkspaceName] = useState('Omansh Studio');
+  const [profileEmail, setProfileEmail] = useState('omansh@arasaka.corp');
+  const [clusterEndpoint, setClusterEndpoint] = useState('https://node-01.enclave.internal:8443/v1');
+  const [airGappedMode, setAirGappedMode] = useState(true);
+  const [zeroEgressLogs, setZeroEgressLogs] = useState(true);
   const [aiModel, setAiModel] = useState('kairo-neural-v2');
   const [autoApproveLowRisk, setAutoApproveLowRisk] = useState(true);
   const [emailAlerts, setEmailAlerts] = useState(true);
@@ -58,34 +62,39 @@ export const SettingsPage: React.FC = () => {
   };
 
   const handleSave = () => {
-    showToast('Preferences saved successfully', 'success');
+    showToast('Sovereign parameters committed to enclave keystore', 'success');
   };
 
   const sections = [
-    { id: 'profile', label: 'Profile', icon: User },
-    { id: 'workspace', label: 'Workspace', icon: Building },
-    { id: 'ai', label: 'AI preferences', icon: Sparkles },
-    { id: 'integrations', label: 'Integrations', icon: LinkIcon },
-    { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'appearance', label: 'Appearance', icon: Sun },
+    { id: 'enclave', label: 'Sovereign Enclave', icon: ShieldCheck },
+    { id: 'profile', label: 'Operator Identity', icon: User },
+    { id: 'ai', label: 'Inference Engines', icon: Sparkles },
+    { id: 'integrations', label: 'Connectors & Pipes', icon: LinkIcon },
+    { id: 'notifications', label: 'Audit Alerts', icon: Bell },
+    { id: 'appearance', label: 'Design System', icon: Sun },
   ];
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-8 space-y-6 select-none">
       {/* Page Header */}
-      <div>
-        <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-[#18181B]">
-          Settings
+      <div className="border-b border-black/[0.06] pb-5">
+        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-slate-400">
+          <span>SYSTEM CONFIG // 設定</span>
+          <span>·</span>
+          <span className="text-status-success font-medium">ARASAKA ENCLAVE 01</span>
+        </div>
+        <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-graphite mt-1">
+          Sovereign Parameters & Cluster Configuration
         </h1>
-        <p className="text-xs sm:text-sm text-[#71717A] mt-0.5">
-          Manage identity, linked platform accounts, inference engines, and notifications.
+        <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+          Manage hardware isolation, cryptographic boundary, inference nodes, and operator credentials.
         </p>
       </div>
 
       {/* Two-Column Settings Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pt-2">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Left Navigation Sub-Sidebar */}
-        <div className="space-y-0.5">
+        <div className="space-y-1 font-mono text-xs">
           {sections.map(sec => {
             const Icon = sec.icon;
             const isActive = activeSection === sec.id;
@@ -93,13 +102,13 @@ export const SettingsPage: React.FC = () => {
               <button
                 key={sec.id}
                 onClick={() => setActiveSection(sec.id)}
-                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors text-left ${
+                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-md transition-colors text-left pressable ${
                   isActive
-                    ? 'bg-black/[0.06] text-[#18181B]'
-                    : 'text-[#71717A] hover:text-[#18181B] hover:bg-black/[0.03]'
+                    ? 'bg-graphite text-white font-medium'
+                    : 'text-slate-500 hover:text-graphite hover:bg-black/[0.03]'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-accent' : 'text-slate-400'}`} />
                 <span>{sec.label}</span>
               </button>
             );
@@ -107,84 +116,114 @@ export const SettingsPage: React.FC = () => {
         </div>
 
         {/* Right Settings Form Container */}
-        <div className="md:col-span-3 bg-white rounded-xl border border-black/[0.07] p-6 sm:p-7 shadow-sm space-y-6">
+        <div className="md:col-span-3 bg-white rounded-lg border border-black/[0.07] p-6 sm:p-7 shadow-card space-y-6">
+          {/* Sovereign Enclave Section */}
+          {activeSection === 'enclave' && (
+            <div className="space-y-5 text-left text-xs">
+              <div>
+                <h3 className="text-sm font-semibold text-graphite">Sovereign Enclave & Air-Gap Controls</h3>
+                <p className="text-slate-500 text-xs mt-0.5">Hardware boundary enforcement and zero-egress data policy.</p>
+              </div>
+
+              <div className="p-4 bg-[#FAF9F7] rounded-md border border-black/[0.06] flex items-center justify-between gap-4">
+                <div>
+                  <div className="font-medium text-graphite font-mono">Air-Gapped Isolation Mode</div>
+                  <div className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                    Sever all external telemetry egress. All weights, reasoning paths, and audit traces remain strictly inside local hardware.
+                  </div>
+                </div>
+                <Switch
+                  checked={airGappedMode}
+                  onChange={setAirGappedMode}
+                />
+              </div>
+
+              <div className="p-4 bg-[#FAF9F7] rounded-md border border-black/[0.06] flex items-center justify-between gap-4">
+                <div>
+                  <div className="font-medium text-graphite font-mono">Zero External Log Egress</div>
+                  <div className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                    Cryptographically sign all run logs to local append-only storage (`/var/log/kairo/audit.ledger`).
+                  </div>
+                </div>
+                <Switch
+                  checked={zeroEgressLogs}
+                  onChange={setZeroEgressLogs}
+                />
+              </div>
+
+              <div className="space-y-1.5 pt-1">
+                <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                  <Server className="w-3 h-3 text-accent" />
+                  Local Cluster Inference Endpoint
+                </label>
+                <input
+                  type="text"
+                  value={clusterEndpoint}
+                  onChange={e => setClusterEndpoint(e.target.value)}
+                  className="w-full px-3 py-2 bg-white rounded-md border border-black/[0.08] text-xs font-mono text-graphite focus:outline-none focus:border-accent transition-colors"
+                />
+              </div>
+
+              <div className="p-3.5 bg-status-success/5 rounded-md border border-status-success/20 flex items-center justify-between font-mono text-xs">
+                <div className="flex items-center gap-2">
+                  <Lock className="w-4 h-4 text-status-success" />
+                  <div>
+                    <div className="font-medium text-graphite">HARDWARE ATTESTATION: PASS</div>
+                    <div className="text-[10px] text-slate-500">TPM 2.0 · FIPS 140-3 Cryptographic Integrity Verified</div>
+                  </div>
+                </div>
+                <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-status-success/10 text-status-success border border-status-success/30">
+                  ENCLAVE SECURE
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* Profile Section */}
           {activeSection === 'profile' && (
             <div className="space-y-5 text-left text-xs">
               <div>
-                <h3 className="text-sm font-semibold text-[#18181B]">Profile</h3>
-                <p className="text-[#71717A] text-xs mt-0.5">Personal details and account credentials.</p>
+                <h3 className="text-sm font-semibold text-graphite">Operator Identity</h3>
+                <p className="text-slate-500 text-xs mt-0.5">Authorized keyholder profile and workspace credentials.</p>
               </div>
 
               <div className="flex items-center gap-4 pt-1">
-                <div className="w-12 h-12 rounded-full bg-[#FAF9F7] border border-black/[0.08] flex items-center justify-center text-[#18181B] font-semibold text-sm">
+                <div className="w-12 h-12 rounded-md bg-[#FAF9F7] border border-black/[0.08] flex items-center justify-center text-graphite font-mono font-semibold text-sm">
                   OB
                 </div>
                 <div>
                   <button
-                    onClick={() => showToast('Avatar upload simulated', 'info')}
-                    className="px-3 py-1.5 bg-black/[0.04] hover:bg-black/[0.07] rounded-md font-medium text-xs text-[#18181B] transition-colors"
+                    onClick={() => showToast('Keypair rotation simulated', 'info')}
+                    className="pressable px-3 py-1.5 bg-black/[0.04] hover:bg-black/[0.07] rounded font-medium text-xs text-graphite transition-colors"
                   >
-                    Change avatar
+                    Rotate Operator Key
                   </button>
-                  <p className="text-[11px] text-[#A1A1AA] mt-1">Square JPG, PNG, or GIF up to 2MB</p>
+                  <p className="text-[11px] font-mono text-slate-400 mt-1">SIH26117 · ARASAKA CORP ENCLAVE-01</p>
                 </div>
               </div>
 
               <div className="space-y-1.5 pt-2">
-                <label className="text-xs font-medium text-[#52525B]">
-                  Full name
+                <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400">
+                  Operator Name
                 </label>
                 <input
                   type="text"
                   value={profileName}
                   onChange={e => setProfileName(e.target.value)}
-                  className="w-full px-3 py-2 bg-white rounded-lg border border-black/[0.08] text-xs text-[#18181B] focus:outline-none focus:border-black/[0.2] transition-colors"
+                  className="w-full px-3 py-2 bg-white rounded-md border border-black/[0.08] text-xs text-graphite focus:outline-none focus:border-accent transition-colors"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-[#52525B]">
-                  Email address
+                <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400">
+                  Enclave Email Handle
                 </label>
                 <input
                   type="email"
                   value={profileEmail}
                   onChange={e => setProfileEmail(e.target.value)}
-                  className="w-full px-3 py-2 bg-white rounded-lg border border-black/[0.08] text-xs text-[#18181B] focus:outline-none focus:border-black/[0.2] transition-colors"
+                  className="w-full px-3 py-2 bg-white rounded-md border border-black/[0.08] text-xs font-mono text-graphite focus:outline-none focus:border-accent transition-colors"
                 />
-              </div>
-            </div>
-          )}
-
-          {/* Workspace Section */}
-          {activeSection === 'workspace' && (
-            <div className="space-y-5 text-left text-xs">
-              <div>
-                <h3 className="text-sm font-semibold text-[#18181B]">Workspace</h3>
-                <p className="text-[#71717A] text-xs mt-0.5">Manage team namespace and subscription tier.</p>
-              </div>
-
-              <div className="space-y-1.5 pt-1">
-                <label className="text-xs font-medium text-[#52525B]">
-                  Workspace name
-                </label>
-                <input
-                  type="text"
-                  value={workspaceName}
-                  onChange={e => setWorkspaceName(e.target.value)}
-                  className="w-full px-3 py-2 bg-white rounded-lg border border-black/[0.08] text-xs text-[#18181B] focus:outline-none focus:border-black/[0.2] transition-colors"
-                />
-              </div>
-
-              <div className="p-3.5 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between">
-                <div>
-                  <div className="font-medium text-[#18181B]">Enterprise autonomous tier</div>
-                  <div className="text-[11px] text-[#71717A]">Unlimited workflow executions & continuous model reasoning</div>
-                </div>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  Active
-                </span>
               </div>
             </div>
           )}
@@ -193,30 +232,31 @@ export const SettingsPage: React.FC = () => {
           {activeSection === 'ai' && (
             <div className="space-y-5 text-left text-xs">
               <div>
-                <h3 className="text-sm font-semibold text-[#18181B]">AI preferences</h3>
-                <p className="text-[#71717A] text-xs mt-0.5">Default inference models and reasoning guardrails.</p>
+                <h3 className="text-sm font-semibold text-graphite">Inference Engines & Model Routing</h3>
+                <p className="text-slate-500 text-xs mt-0.5">Prioritize on-premise local weights over encrypted cloud fallbacks.</p>
               </div>
 
               <div className="space-y-1.5 pt-1">
-                <label className="text-xs font-medium text-[#52525B]">
-                  Default synthesis engine
+                <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400">
+                  Primary Routing Matrix Engine
                 </label>
                 <select
                   value={aiModel}
                   onChange={e => setAiModel(e.target.value)}
-                  className="w-full px-3 py-2 bg-white rounded-lg border border-black/[0.08] text-xs text-[#18181B] font-medium focus:outline-none focus:border-black/[0.2] transition-colors"
+                  className="w-full px-3 py-2 bg-white rounded-md border border-black/[0.08] text-xs font-mono text-graphite font-medium focus:outline-none focus:border-accent transition-colors"
                 >
-                  <option value="kairo-neural-v2">Kairo Neural Engine v2.4 (Ultra-fast, zero-latency inference)</option>
-                  <option value="gemini-1.5-pro">Gemini 1.5 Pro (Extreme 1M token context)</option>
-                  <option value="claude-3.5-sonnet">Claude 3.5 Sonnet (Advanced code & reasoning)</option>
+                  <option value="kairo-neural-v2">KAIRO Neural Core v2.4 (Air-Gapped Local Cluster)</option>
+                  <option value="deepseek-r1">DeepSeek-R1 70B (Isolated On-Premises Pod)</option>
+                  <option value="llama-3.3">Llama-3.3 70B (Hardware Enclave)</option>
+                  <option value="gemini-1.5-pro">Gemini 1.5 Pro (Encrypted Sovereign Proxy Gateway)</option>
                 </select>
               </div>
 
-              <div className="p-4 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between gap-4">
+              <div className="p-4 bg-[#FAF9F7] rounded-md border border-black/[0.06] flex items-center justify-between gap-4">
                 <div>
-                  <div className="font-medium text-[#18181B]">Autonomous low-risk execution</div>
-                  <div className="text-[11px] text-[#71717A] mt-0.5 leading-relaxed">
-                    Automatically execute actions when model confidence exceeds 92% without requiring manual confirmation.
+                  <div className="font-medium text-graphite">Autonomous Deterministic Dispatch</div>
+                  <div className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                    Auto-execute steps when the dual-model verification consensus exceeds 94%.
                   </div>
                 </div>
                 <Switch
@@ -231,100 +271,77 @@ export const SettingsPage: React.FC = () => {
           {activeSection === 'integrations' && (
             <div className="space-y-5 text-left text-xs">
               <div>
-                <h3 className="text-sm font-semibold text-[#18181B]">Connected integrations</h3>
-                <p className="text-[#71717A] text-xs mt-0.5">Authorize access to cloud platforms used in workflow triggers and actions.</p>
+                <h3 className="text-sm font-semibold text-graphite">Connectors & Internal Data Pipes</h3>
+                <p className="text-slate-500 text-xs mt-0.5">Authorizations for air-gapped relays, internal webhooks, and git remotes.</p>
               </div>
 
               <div className="space-y-2.5 pt-1">
                 {/* Gmail / Workspace */}
-                <div className="p-3.5 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between">
+                <div className="p-3.5 bg-[#FAF9F7] rounded-md border border-black/[0.06] flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-md bg-white border border-black/[0.06] text-[#2D44D8] flex items-center justify-center font-semibold text-xs">
-                      G
+                    <div className="w-7 h-7 rounded bg-white border border-black/[0.06] text-accent flex items-center justify-center font-mono font-semibold text-xs">
+                      M
                     </div>
                     <div>
-                      <div className="font-medium text-[#18181B]">Google Workspace</div>
-                      <div className="text-[11px] text-[#71717A]">Gmail inbound triggers & Drive document storage</div>
+                      <div className="font-medium text-graphite">Internal Mail Relay (SMTP/TLS)</div>
+                      <div className="text-[11px] text-slate-500">Inbound trigger listener on secure port 587</div>
                     </div>
                   </div>
                   <button
                     onClick={() => toggleService('gmail')}
-                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
+                    className={`pressable px-2.5 py-1 text-xs font-mono font-medium rounded transition-colors ${
                       connectedServices.gmail
-                        ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
-                        : 'text-[#52525B] bg-white border border-black/[0.08] hover:bg-black/[0.03]'
+                        ? 'text-status-success bg-status-success/10 border border-status-success/20'
+                        : 'text-slate-500 bg-white border border-black/[0.08] hover:bg-black/[0.03]'
                     }`}
                   >
-                    {connectedServices.gmail ? 'Connected' : 'Connect'}
+                    {connectedServices.gmail ? 'BOUND' : 'CONNECT'}
                   </button>
                 </div>
 
                 {/* Slack */}
-                <div className="p-3.5 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between">
+                <div className="p-3.5 bg-[#FAF9F7] rounded-md border border-black/[0.06] flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-md bg-white border border-black/[0.06] text-purple-600 flex items-center justify-center font-semibold text-xs">
+                    <div className="w-7 h-7 rounded bg-white border border-black/[0.06] text-indigo-600 flex items-center justify-center font-mono font-semibold text-xs">
                       S
                     </div>
                     <div>
-                      <div className="font-medium text-[#18181B]">Slack</div>
-                      <div className="text-[11px] text-[#71717A]">Channel alerts, thread summaries, and notifications</div>
+                      <div className="font-medium text-graphite">Team Dispatch Channel</div>
+                      <div className="text-[11px] text-slate-500">Instant milestone dispatches & human approvals</div>
                     </div>
                   </div>
                   <button
                     onClick={() => toggleService('slack')}
-                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
+                    className={`pressable px-2.5 py-1 text-xs font-mono font-medium rounded transition-colors ${
                       connectedServices.slack
-                        ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
-                        : 'text-[#52525B] bg-white border border-black/[0.08] hover:bg-black/[0.03]'
+                        ? 'text-status-success bg-status-success/10 border border-status-success/20'
+                        : 'text-slate-500 bg-white border border-black/[0.08] hover:bg-black/[0.03]'
                     }`}
                   >
-                    {connectedServices.slack ? 'Connected' : 'Connect'}
+                    {connectedServices.slack ? 'BOUND' : 'CONNECT'}
                   </button>
                 </div>
 
                 {/* Notion */}
-                <div className="p-3.5 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between">
+                <div className="p-3.5 bg-[#FAF9F7] rounded-md border border-black/[0.06] flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-md bg-white border border-black/[0.06] text-[#18181B] flex items-center justify-center font-semibold text-xs">
+                    <div className="w-7 h-7 rounded bg-white border border-black/[0.06] text-graphite flex items-center justify-center font-mono font-semibold text-xs">
                       N
                     </div>
                     <div>
-                      <div className="font-medium text-[#18181B]">Notion</div>
-                      <div className="text-[11px] text-[#71717A]">Sync structured database entries & meeting notes</div>
+                      <div className="font-medium text-graphite">Knowledge Base & Vector Store</div>
+                      <div className="text-[11px] text-slate-500">Structured documentation embeddings & memory bank</div>
                     </div>
                   </div>
                   <button
                     onClick={() => toggleService('notion')}
-                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
+                    className={`pressable px-2.5 py-1 text-xs font-mono font-medium rounded transition-colors ${
                       connectedServices.notion
-                        ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
-                        : 'text-[#52525B] bg-white border border-black/[0.08] hover:bg-black/[0.03]'
+                        ? 'text-status-success bg-status-success/10 border border-status-success/20'
+                        : 'text-slate-500 bg-white border border-black/[0.08] hover:bg-black/[0.03]'
                     }`}
                   >
-                    {connectedServices.notion ? 'Connected' : 'Connect'}
-                  </button>
-                </div>
-
-                {/* GitHub */}
-                <div className="p-3.5 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-md bg-white border border-black/[0.06] text-[#18181B] flex items-center justify-center font-semibold text-xs">
-                      GH
-                    </div>
-                    <div>
-                      <div className="font-medium text-[#18181B]">GitHub</div>
-                      <div className="text-[11px] text-[#71717A]">Triggers on PRs, release tags, and CI runs</div>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => toggleService('github')}
-                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
-                      connectedServices.github
-                        ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
-                        : 'text-[#52525B] bg-white border border-black/[0.08] hover:bg-black/[0.03]'
-                    }`}
-                  >
-                    {connectedServices.github ? 'Connected' : 'Connect'}
+                    {connectedServices.notion ? 'BOUND' : 'CONNECT'}
                   </button>
                 </div>
               </div>
@@ -335,15 +352,15 @@ export const SettingsPage: React.FC = () => {
           {activeSection === 'notifications' && (
             <div className="space-y-5 text-left text-xs">
               <div>
-                <h3 className="text-sm font-semibold text-[#18181B]">Notifications</h3>
-                <p className="text-[#71717A] text-xs mt-0.5">Control where alerts and milestone reports are dispatched.</p>
+                <h3 className="text-sm font-semibold text-graphite">Audit Alerts & Incident Escalation</h3>
+                <p className="text-slate-500 text-xs mt-0.5">Control emergency interrupts and operator telemetry notifications.</p>
               </div>
 
               <div className="space-y-3 pt-1">
-                <div className="p-4 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between gap-4">
+                <div className="p-4 bg-[#FAF9F7] rounded-md border border-black/[0.06] flex items-center justify-between gap-4">
                   <div>
-                    <div className="font-medium text-[#18181B]">Daily executive digest</div>
-                    <div className="text-[11px] text-[#71717A] mt-0.5">Summary of all automated tasks delivered each evening.</div>
+                    <div className="font-medium text-graphite">End-of-day Enclave Digest</div>
+                    <div className="text-[11px] text-slate-500 mt-0.5">Complete cryptographic audit ledger delivered at 20:00.</div>
                   </div>
                   <Switch
                     checked={emailAlerts}
@@ -351,10 +368,10 @@ export const SettingsPage: React.FC = () => {
                   />
                 </div>
 
-                <div className="p-4 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-center justify-between gap-4">
+                <div className="p-4 bg-[#FAF9F7] rounded-md border border-black/[0.06] flex items-center justify-between gap-4">
                   <div>
-                    <div className="font-medium text-[#18181B]">Slack alerts for attention items</div>
-                    <div className="text-[11px] text-[#71717A] mt-0.5">Immediate notifications when a workflow requires human intervention.</div>
+                    <div className="font-medium text-graphite">Emergency Interlock Alerts</div>
+                    <div className="text-[11px] text-slate-500 mt-0.5">Instant operator interrupt if confidence drops below threshold.</div>
                   </div>
                   <Switch
                     checked={slackAlerts}
@@ -369,16 +386,16 @@ export const SettingsPage: React.FC = () => {
           {activeSection === 'appearance' && (
             <div className="space-y-5 text-left text-xs">
               <div>
-                <h3 className="text-sm font-semibold text-[#18181B]">Appearance</h3>
-                <p className="text-[#71717A] text-xs mt-0.5">Visual personality of your Kairo workspace.</p>
+                <h3 className="text-sm font-semibold text-graphite">Design System Calibration</h3>
+                <p className="text-slate-500 text-xs mt-0.5">Tokyo precision aesthetic standards.</p>
               </div>
 
-              <div className="p-4 bg-[#FAF9F7] rounded-lg border border-black/[0.05] flex items-start gap-3">
-                <Sun className="w-4 h-4 text-[#2D44D8] shrink-0 mt-0.5" />
-                <div className="space-y-1">
-                  <div className="font-medium text-[#18181B]">Apple HIG Light Mode Standard</div>
-                  <div className="text-[#71717A] text-xs leading-relaxed">
-                    Kairo is deliberately architected using a calm, high-precision light theme grounded in Apple Human Interface Guidelines and modern SaaS principles. Contrast, typography, and whitespace are mathematically calibrated for long-session cognitive clarity.
+              <div className="p-4 bg-[#FAF9F7] rounded-md border border-black/[0.06] flex items-start gap-3">
+                <Sun className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                <div className="space-y-1.5">
+                  <div className="font-medium text-graphite font-mono">SOVEREIGN GRAPHITE + WARM BONE STANDARD</div>
+                  <div className="text-slate-500 text-xs leading-relaxed">
+                    KAIRO operates on an intentional high-density light interface designed around Japanese typography principles, hairline dividers, and electric cobalt accents. Calibrated for 12+ hour operator shifts without optical fatigue.
                   </div>
                 </div>
               </div>
@@ -386,13 +403,13 @@ export const SettingsPage: React.FC = () => {
           )}
 
           {/* Action footer */}
-          <div className="pt-4 border-t border-black/[0.05] flex justify-end">
+          <div className="pt-4 border-t border-black/[0.06] flex justify-end">
             <button
               onClick={handleSave}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-white bg-[#18181B] hover:bg-[#27272A] rounded-lg shadow-sm transition-all active:scale-[0.98]"
+              className="pressable inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-graphite hover:bg-accent rounded-md shadow-2xs transition-all"
             >
               <Check className="w-3.5 h-3.5" />
-              <span>Save preferences</span>
+              <span>Commit Parameters</span>
             </button>
           </div>
         </div>

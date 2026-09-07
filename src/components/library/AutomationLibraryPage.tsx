@@ -41,50 +41,55 @@ export const AutomationLibraryPage: React.FC = () => {
   const getTemplateIcon = (iconName: string) => {
     switch (iconName) {
       case 'Mail':
-        return <Mail className="w-4 h-4 text-[#2D44D8]" />;
+        return <Mail className="w-3.5 h-3.5 text-accent" />;
       case 'Calendar':
-        return <Calendar className="w-4 h-4 text-[#52525B]" />;
+        return <Calendar className="w-3.5 h-3.5 text-amber-600" />;
       case 'BarChart3':
-        return <BarChart3 className="w-4 h-4 text-[#52525B]" />;
+        return <BarChart3 className="w-3.5 h-3.5 text-indigo-600" />;
       case 'FileText':
-        return <FileText className="w-4 h-4 text-[#52525B]" />;
+        return <FileText className="w-3.5 h-3.5 text-slate-600" />;
       case 'FileSpreadsheet':
-        return <FileSpreadsheet className="w-4 h-4 text-[#52525B]" />;
+        return <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />;
       case 'Bell':
-        return <Bell className="w-4 h-4 text-[#52525B]" />;
+        return <Bell className="w-3.5 h-3.5 text-cyan-600" />;
       case 'MessageSquare':
-        return <MessageSquare className="w-4 h-4 text-[#52525B]" />;
+        return <MessageSquare className="w-3.5 h-3.5 text-blue-600" />;
       case 'Shield':
-        return <Shield className="w-4 h-4 text-[#52525B]" />;
+        return <Shield className="w-3.5 h-3.5 text-status-success" />;
       default:
-        return <Zap className="w-4 h-4 text-[#52525B]" />;
+        return <Zap className="w-3.5 h-3.5 text-slate-600" />;
     }
   };
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8 space-y-6 select-none">
       {/* Page Header */}
-      <div className="space-y-1">
-        <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-[#18181B]">
-          Templates
+      <div className="border-b border-black/[0.06] pb-5">
+        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-slate-400">
+          <span>BLUEPRINTS // 設計図</span>
+          <span>·</span>
+          <span>ENTERPRISE TEMPLATE CATALOG</span>
+        </div>
+        <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-graphite mt-1">
+          Industrial Blueprints & Proven Routines
         </h1>
-        <p className="text-xs sm:text-sm text-[#71717A] max-w-xl">
-          Curated workflow blueprints ready to deploy or customize for your team.
+        <p className="text-xs sm:text-sm text-slate-500 mt-0.5 max-w-xl">
+          Pre-validated agentic architectures engineered for confidential operations and immediate canvas instantiation.
         </p>
       </div>
 
       {/* Search & Category Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-1">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         {/* Category Pills */}
-        <div className="flex flex-wrap items-center gap-1 bg-black/[0.03] p-1 rounded-lg border border-black/[0.05]">
+        <div className="flex flex-wrap items-center gap-1 bg-black/[0.03] p-1 rounded-md border border-black/[0.05]">
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+              className={`pressable px-3 py-1 rounded text-xs font-medium transition-colors ${
                 selectedCategory === cat
-                  ? 'bg-white text-[#18181B] shadow-2xs'
-                  : 'text-[#71717A] hover:text-[#18181B]'
+                  ? 'bg-white text-graphite shadow-2xs'
+                  : 'text-slate-500 hover:text-graphite'
               }`}
             >
               {cat}
@@ -94,13 +99,13 @@ export const AutomationLibraryPage: React.FC = () => {
 
         {/* Search input */}
         <div className="relative w-full sm:w-72">
-          <Search className="w-3.5 h-3.5 text-[#A1A1AA] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            placeholder="Search templates..."
-            className="w-full pl-8 pr-3 py-1.5 text-xs bg-white rounded-lg border border-black/[0.08] focus:outline-none focus:border-black/[0.2] text-[#18181B] placeholder:text-[#A1A1AA] transition-colors"
+            placeholder="Filter blueprints..."
+            className="w-full pl-8 pr-3 py-1.5 text-xs bg-white rounded-md border border-black/[0.08] focus:outline-none focus:border-accent text-graphite placeholder:text-slate-400 transition-colors font-mono"
           />
         </div>
       </div>
@@ -110,44 +115,44 @@ export const AutomationLibraryPage: React.FC = () => {
         {filteredTemplates.map(template => (
           <div
             key={template.id}
-            className="bg-white rounded-xl border border-black/[0.07] p-5 shadow-sm hover:border-black/[0.15] hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all flex flex-col justify-between group"
+            className="bg-white rounded-lg border border-black/[0.07] p-5 shadow-card hover:border-accent/40 hover:shadow-float transition-all flex flex-col justify-between group"
           >
             <div>
               <div className="flex items-center justify-between mb-3">
-                <div className="w-8 h-8 rounded-lg bg-[#FAF9F7] border border-black/[0.05] flex items-center justify-center">
+                <div className="w-8 h-8 rounded bg-[#FAF9F7] border border-black/[0.06] flex items-center justify-center">
                   {getTemplateIcon(template.icon)}
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] font-medium text-[#71717A] px-2 py-0.5 rounded-md bg-black/[0.03] border border-black/[0.04]">
+                  <span className="text-[10px] font-mono text-slate-500 px-2 py-0.5 rounded bg-black/[0.03] border border-black/[0.04] uppercase">
                     {template.complexity}
                   </span>
                   {template.popular && (
-                    <span className="text-[10px] font-medium text-[#2D44D8] px-2 py-0.5 rounded-md bg-[#2D44D8]/[0.06] border border-[#2D44D8]/10">
-                      Popular
+                    <span className="text-[9.5px] font-mono font-medium text-accent px-1.5 py-0.5 rounded bg-accent/10 border border-accent/20">
+                      RECOMMENDED
                     </span>
                   )}
                 </div>
               </div>
 
-              <h3 className="text-xs sm:text-sm font-medium text-[#18181B] group-hover:text-[#2D44D8] transition-colors">
+              <h3 className="text-xs sm:text-sm font-medium text-graphite group-hover:text-accent transition-colors">
                 {template.title}
               </h3>
-              <p className="text-xs text-[#71717A] mt-1.5 line-clamp-2 leading-relaxed">
+              <p className="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">
                 {template.description}
               </p>
             </div>
 
-            <div className="pt-4 mt-4 border-t border-black/[0.04] flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-[11px] text-[#71717A]">
-                <Clock className="w-3 h-3 text-[#A1A1AA]" />
-                <span className="font-mono">Saves ~{template.timeSaved}</span>
+            <div className="pt-4 mt-4 border-t border-black/[0.05] flex items-center justify-between">
+              <div className="flex items-center gap-1.5 text-[10.5px] text-slate-400 font-mono">
+                <Clock className="w-3 h-3 text-slate-400" />
+                <span>SAVINGS: ~{template.timeSaved}</span>
               </div>
 
               <button
                 onClick={() => loadTemplate(template)}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-[#18181B] bg-black/[0.04] hover:bg-[#18181B] hover:text-white rounded-lg transition-all active:scale-[0.98]"
+                className="pressable inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-graphite bg-slate-100 hover:bg-graphite hover:text-white rounded transition-all"
               >
-                <span>Use template</span>
+                <span>Instantiate</span>
                 <ArrowRight className="w-3 h-3" />
               </button>
             </div>

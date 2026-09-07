@@ -7,21 +7,23 @@
     --bg-kairo: #FAF9F7;
     --surface-kairo: #FFFFFF;
     --subtle-kairo: #F4F3F0;
-    --border-kairo: rgba(0, 0, 0, 0.06);
-    --border-strong: rgba(0, 0, 0, 0.12);
+    --border-kairo: rgba(0, 0, 0, 0.07);
+    --border-strong: rgba(0, 0, 0, 0.16);
+    --ease-kairo: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out-kairo: cubic-bezier(0.77, 0, 0.175, 1);
   }
 
   * {
-    border-color: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.07);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     background-color: #FAF9F7;
-    color: #18181B;
+    color: #121316;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    letter-spacing: -0.012em;
+    letter-spacing: -0.014em;
     overflow-x: hidden;
   }
 
@@ -32,28 +34,45 @@
     flex-direction: column;
   }
 
-  /* Accessible focus rings */
+  /* Accessible focus ring adhering to Emil Kowalski guidelines */
   :focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px #FAF9F7, 0 0 0 4px rgba(45, 68, 216, 0.35);
+    box-shadow: 0 0 0 2px #FAF9F7, 0 0 0 4px rgba(29, 78, 216, 0.3);
   }
 }
 
-/* Custom subtle canvas grid (restrained Apple HIG aesthetic) */
-.bg-dot-grid {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+/* Micro-interaction: Emil Kowalski responsive button press */
+.pressable {
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  user-select: none;
+}
+
+.pressable:active {
+  transform: scale(0.97);
+}
+
+/* High-precision engineering canvas grid */
+.bg-kairo-grid {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
 .bg-dot-grid-fine {
   background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-  background-size: 16px 16px;
+  background-size: 14px 14px;
 }
 
-/* Thin Apple-style custom scrollbar */
+/* Thin precision custom scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -69,7 +88,7 @@
   background: rgba(0, 0, 0, 0.22);
 }
 
-/* Subtle workflow connection pulse */
+/* Workflow connector energy pulse */
 @keyframes flow-dash {
   to {
     stroke-dashoffset: -20;
@@ -81,9 +100,15 @@
   animation: flow-dash 1.4s linear infinite;
 }
 
-/* Subtle surface glass backdrop */
+/* Restrained industrial surface */
+.kairo-surface {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
 .glass-surface {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
