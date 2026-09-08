@@ -45,7 +45,7 @@ export const ActivityPage: React.FC = () => {
             Enclave Execution Audit Log
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Cryptographic audit trail of autonomous mission runs, reasoning traces, and air-gapped dispatches.
+            Cryptographic audit trail of autonomous mission runs, reasoning traces, and air gapped dispatches.
           </p>
         </div>
 
