@@ -31,11 +31,11 @@ export const Sidebar: React.FC = () => {
   const mainNav: NavItem[] = [
     { tab: 'overview', label: 'Overview', jpLabel: '概観', icon: LayoutDashboard, shortcut: '1' },
     { tab: 'automations', label: 'Automations', jpLabel: '自動化', icon: Boxes, badge: `${activeCount}`, shortcut: '2' },
-    { tab: 'create', label: 'Composer', jpLabel: '作成', icon: Sparkles, shortcut: '3' },
+    { tab: 'create', label: 'Create', jpLabel: '作成', icon: Sparkles, shortcut: '3' },
     { tab: 'builder', label: 'Builder', jpLabel: '設計図', icon: GitBranch, shortcut: '4' },
     { tab: 'library', label: 'Blueprints', jpLabel: '文庫', icon: BookOpen, shortcut: '5' },
-    { tab: 'analytics', label: 'Telemetry', jpLabel: '分析', icon: BarChart3, shortcut: '6' },
-    { tab: 'activity', label: 'Audit Trail', jpLabel: '履歴', icon: History, shortcut: '7' },
+    { tab: 'analytics', label: 'Analytics', jpLabel: '分析', icon: BarChart3, shortcut: '6' },
+    { tab: 'activity', label: 'Activity', jpLabel: '履歴', icon: History, shortcut: '7' },
   ];
 
   return (

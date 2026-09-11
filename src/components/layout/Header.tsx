@@ -18,21 +18,21 @@ export const Header: React.FC = () => {
   const getPageMeta = () => {
     switch (currentTab) {
       case 'overview':
-        return { title: 'Command Workspace', jp: '統制空間' };
+        return { title: 'Overview', jp: '統制空間' };
       case 'create':
-        return { title: 'Task Composer', jp: '作成器' };
+        return { title: 'Create', jp: '作成器' };
       case 'builder':
-        return { title: 'Workflow Canvas', jp: '設計図' };
+        return { title: 'Builder', jp: '設計図' };
       case 'library':
         return { title: 'Blueprint Library', jp: '文庫' };
       case 'automations':
-        return { title: 'Automations Directory', jp: '自動化目録' };
+        return { title: 'Automations', jp: '自動化目録' };
       case 'analytics':
-        return { title: 'Operational Telemetry', jp: '運用分析' };
+        return { title: 'Analytics', jp: '運用分析' };
       case 'activity':
-        return { title: 'Audit Trail & Reasoning', jp: '監査証跡' };
+        return { title: 'Activity', jp: '監査証跡' };
       case 'settings':
-        return { title: 'Cluster Configuration', jp: '設定' };
+        return { title: 'Configuration', jp: '設定' };
       default:
         return { title: 'Workspace', jp: '空間' };
     }
@@ -46,7 +46,7 @@ export const Header: React.FC = () => {
         {/* Left Breadcrumb / Node Identifier */}
         <div className="flex items-center gap-2 min-w-0">
           <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider hidden sm:inline">
-            ARASAKA // NODE-01
+            KAIRO
           </span>
           <span className="text-slate-300 text-xs hidden sm:inline">/</span>
           <div className="flex items-baseline gap-2">
