@@ -32,7 +32,7 @@ export const Sidebar: React.FC = () => {
     { tab: 'overview', label: 'Overview', jpLabel: '概観', icon: LayoutDashboard, shortcut: '1' },
     { tab: 'automations', label: 'Automations', jpLabel: '自動化', icon: Boxes, badge: `${activeCount}`, shortcut: '2' },
     { tab: 'create', label: 'Composer', jpLabel: '作成', icon: Sparkles, shortcut: '3' },
-    { tab: 'builder', label: 'Canvas', jpLabel: '設計図', icon: GitBranch, shortcut: '4' },
+    { tab: 'builder', label: 'Builder', jpLabel: '設計図', icon: GitBranch, shortcut: '4' },
     { tab: 'library', label: 'Blueprints', jpLabel: '文庫', icon: BookOpen, shortcut: '5' },
     { tab: 'analytics', label: 'Telemetry', jpLabel: '分析', icon: BarChart3, shortcut: '6' },
     { tab: 'activity', label: 'Audit Trail', jpLabel: '履歴', icon: History, shortcut: '7' },
@@ -115,7 +115,7 @@ export const Sidebar: React.FC = () => {
             <button
               key={item.tab}
               onClick={() => navigateTo(item.tab)}
-              className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-control text-[12.5px] font-medium transition-colors group pressable relative ${
+              className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-control text-[12.5px] font-medium transition-colors group pressable relative ${
                 isActive
                   ? 'bg-[#121316] text-white shadow-2xs'
                   : 'text-slate-600 hover:text-[#121316] hover:bg-black/[0.035]'

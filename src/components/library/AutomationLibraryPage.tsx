@@ -66,7 +66,7 @@ export const AutomationLibraryPage: React.FC = () => {
       {/* Page Header */}
       <div className="border-b border-black/[0.06] pb-5">
         <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-slate-400">
-          <span>BLUEPRINTS // 設計図</span>
+          <span>BLUEPRINTS</span>
           <span>·</span>
           <span>ENTERPRISE TEMPLATE CATALOG</span>
         </div>

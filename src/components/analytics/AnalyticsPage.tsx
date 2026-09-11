@@ -36,12 +36,12 @@ export const AnalyticsPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-black/[0.06] pb-5">
         <div>
           <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-slate-400">
-            <span>TELEMETRY // 計測</span>
-            <span>·</span>
+            <span>TELEMETRY</span>
+            {/* <span>·</span>
             <span className="text-status-success flex items-center gap-1">
               <ShieldCheck className="w-3 h-3" />
               AIR-GAPPED COMPLIANT
-            </span>
+            </span> */}
           </div>
           <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-graphite mt-1">
             Cluster Telemetry & Performance Yield
@@ -61,7 +61,7 @@ export const AnalyticsPage: React.FC = () => {
                 : 'text-slate-500 hover:text-graphite'
             }`}
           >
-            7D // WEEK
+            7D
           </button>
           <button
             onClick={() => setTimeRange('month')}
@@ -71,7 +71,7 @@ export const AnalyticsPage: React.FC = () => {
                 : 'text-slate-500 hover:text-graphite'
             }`}
           >
-            30D // MONTH
+            30D
           </button>
           <button
             onClick={() => setTimeRange('quarter')}
@@ -81,7 +81,7 @@ export const AnalyticsPage: React.FC = () => {
                 : 'text-slate-500 hover:text-graphite'
             }`}
           >
-            90D // QUARTER
+            90D
           </button>
         </div>
       </div>

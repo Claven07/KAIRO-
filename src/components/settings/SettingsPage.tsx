@@ -79,7 +79,7 @@ export const SettingsPage: React.FC = () => {
       {/* Page Header */}
       <div className="border-b border-black/[0.06] pb-5">
         <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-slate-400">
-          <span>SYSTEM CONFIG // 設定</span>
+          <span>SYSTEM CONFIG</span>
           <span>·</span>
           <span className="text-status-success font-medium">ARASAKA ENCLAVE 01</span>
         </div>

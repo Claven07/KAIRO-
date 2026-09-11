@@ -92,7 +92,7 @@ export const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#FAF9F7] text-[#121316] flex flex-col selection:bg-indigo-100 selection:text-indigo-950 select-none">
       {/* Precision Top Bar */}
-      <header className="w-full max-w-6xl mx-auto px-6 h-16 flex items-center justify-between border-b border-black/[0.06] bg-[#FAF9F7]">
+      <header className="w-full max-w-6xl mx-auto px-6 py-4 flex items-center justify-between border-b border-black/[0.06] bg-[#FAF9F7]">
         <div className="flex items-center gap-3">
           <div className="w-7 h-7 rounded bg-[#121316] flex items-center justify-center text-white font-mono font-semibold text-xs tracking-tighter shadow-2xs">
             K
@@ -159,8 +159,8 @@ export const LandingPage: React.FC = () => {
           transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
           className="inline-flex items-center gap-2 px-3 py-1 mx-auto mb-6 rounded-control text-xs font-mono bg-white text-slate-700 border border-black/[0.08] shadow-2xs"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="tracking-wide">SOVEREIGN ON-PREMISE AGENTIC WORKBENCH</span>
+          {/* <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> */}
+          <span className="tracking-wide p-1">SOVEREIGN ON-PREMISE AGENTIC WORKBENCH</span>
           <span className="text-slate-300">|</span>
           <span className="text-slate-400">SIH26117</span>
         </motion.div>
@@ -250,9 +250,6 @@ export const LandingPage: React.FC = () => {
                     >
                       <span className="text-[10px] opacity-70">{st.id + 1}.</span>
                       <span>{st.phase}</span>
-                      <span className={`text-[10px] ${isActive ? 'text-slate-300' : 'text-slate-400'}`}>
-                        ({st.jp})
-                      </span>
                     </button>
                     {idx < pipelineStages.length - 1 && (
                       <span className="text-slate-300 font-mono text-xs select-none">→</span>
@@ -274,9 +271,6 @@ export const LandingPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-blue-50 text-[#1D4ED8] border border-blue-200/60">
                   STAGE 0{currentStage.id + 1} // {currentStage.badge}
-                </span>
-                <span className="text-xs font-mono text-slate-400">
-                  {currentStage.jp}
                 </span>
               </div>
 

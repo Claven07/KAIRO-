@@ -96,17 +96,17 @@ export const OverviewPage: React.FC = () => {
               ARASAKA // SOVEREIGN WORKBENCH
             </span>
             <span className="text-slate-300">·</span>
-            <span className="text-[10px] font-mono text-[#1D4ED8] bg-blue-50 px-1.5 py-0.2 rounded border border-blue-200/60">
+            {/* <span className="text-[10px] font-mono text-[#1D4ED8] bg-blue-50 px-1.5 py-0.2 rounded border border-blue-200/60">
               NODE-01 ONLINE
-            </span>
+            </span> */}
           </div>
           <h1 className="text-2xl sm:text-[26px] font-semibold tracking-tight text-[#121316]">
             Command Workspace
           </h1>
-          <p className="text-xs text-slate-500 mt-0.5 flex items-center gap-2">
+          {/* <p className="text-xs text-slate-500 mt-0.5 flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
             <span>Air-gapped on-premise cluster operating across {metrics.activeAutomations} active listeners.</span>
-          </p>
+          </p> */}
         </div>
 
         {/* Action Controls */}
@@ -155,19 +155,16 @@ export const OverviewPage: React.FC = () => {
           }`}
         >
           {/* Top Meta Bar */}
-          <div className="px-5 pt-3.5 pb-2 flex items-center justify-between border-b border-black/[0.04] bg-[#FAF9F7]/60">
+          <div className="px-5 py-4 flex items-center justify-between border-b border-black/[0.04] bg-[#FAF9F7]/60">
             <div className="flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-[#1D4ED8]" />
               <span className="text-[11.5px] font-mono font-medium text-slate-700">
                 TASK COMPOSER
               </span>
-              <span className="text-[10px] text-slate-400 font-normal">
-                (任務指示)
-              </span>
             </div>
 
             {/* Execution Mode Radio Selector */}
-            <div className="flex items-center gap-1 bg-black/[0.03] p-0.5 rounded border border-black/[0.05]">
+            <div className="flex items-center gap-2 bg-black/[0.03] p-1 rounded border border-black/[0.05]">
               <button
                 type="button"
                 onClick={() => setExecutionMode('autonomous')}
@@ -215,7 +212,7 @@ export const OverviewPage: React.FC = () => {
               onBlur={() => setIsFocused(false)}
               rows={3}
               placeholder="e.g. When an executive contract review arrives in Gmail, analyze priority, synthesize action items, and dispatch briefing to Slack..."
-              className="w-full bg-transparent text-[13.5px] text-[#121316] placeholder:text-slate-400 resize-none outline-none leading-relaxed font-normal"
+              className="w-full h-32 outline-none bg-transparent text-[13.5px] text-[#121316] placeholder:text-slate-400 resize-none outline-none leading-relaxed font-normal"
               onKeyDown={e => {
                 if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
                   handleGenerate();
@@ -254,9 +251,6 @@ export const OverviewPage: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="hidden sm:inline text-[10.5px] text-slate-400 font-mono">
-                  ⌘ + ↵ to compile
-                </span>
                 <button
                   type="submit"
                   className="inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium text-white bg-[#121316] hover:bg-[#1D4ED8] rounded-control shadow-2xs transition-all pressable"

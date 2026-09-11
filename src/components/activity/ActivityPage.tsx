@@ -34,7 +34,7 @@ export const ActivityPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-black/[0.06] pb-5">
         <div>
           <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-slate-400">
-            <span>AUDIT TRAIL // 監査ログ</span>
+            <span>AUDIT TRAIL</span>
             <span>·</span>
             <span className="text-status-success flex items-center gap-1">
               <ShieldCheck className="w-3 h-3" />

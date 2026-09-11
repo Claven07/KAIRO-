@@ -25,7 +25,7 @@ export const ActivationModal: React.FC = () => {
         {/* Headlines */}
         <div className="flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-1">
           <ShieldCheck className="w-3 h-3 text-status-success" />
-          <span>DEPLOYMENT CONFIRMED // 配備完了</span>
+          <span>DEPLOYMENT CONFIRMED </span>
         </div>
         <h3 className="text-lg font-semibold tracking-tight text-graphite">
           Mission Activated in Enclave

@@ -53,9 +53,6 @@ export const Header: React.FC = () => {
             <h1 className="text-[13.5px] font-semibold text-[#121316] tracking-tight">
               {pageMeta.title}
             </h1>
-            <span className="text-[10px] text-slate-400 font-normal hidden md:inline">
-              {pageMeta.jp}
-            </span>
           </div>
 
           {currentTab === 'builder' && (
@@ -69,10 +66,10 @@ export const Header: React.FC = () => {
         {/* Right System Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Sovereign Security Badge */}
-          <div className="hidden lg:flex items-center gap-1.5 px-2 py-1 rounded-control bg-black/[0.03] border border-black/[0.06] text-[10.5px] font-mono text-slate-600">
+          {/* <div className="hidden lg:flex items-center gap-1.5 px-2 py-1 rounded-control bg-black/[0.03] border border-black/[0.06] text-[10.5px] font-mono text-slate-600">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
             <span>CONFIDENTIAL // AIR-GAPPED</span>
-          </div>
+          </div> */}
 
           {/* Command Search Trigger */}
           <button
@@ -82,9 +79,6 @@ export const Header: React.FC = () => {
           >
             <Search className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-[12px] hidden md:inline">Command...</span>
-            <kbd className="inline-flex items-center px-1 py-0.2 text-[9.5px] font-mono bg-[#FAF9F7] rounded border border-black/[0.07] text-slate-400">
-              ⌘K
-            </kbd>
           </button>
 
           {/* Quick Create Mission CTA */}
@@ -181,14 +175,14 @@ export const Header: React.FC = () => {
           </div>
 
           {/* Landing page link */}
-          <button
+          {/* <button
             onClick={() => navigateTo('landing')}
             className="text-[11px] font-mono text-slate-500 hover:text-[#121316] px-2 py-1 rounded hover:bg-black/[0.04] transition-colors hidden sm:inline-flex items-center gap-1 pressable"
             title="Return to Sovereign Intro"
           >
             <span>Landing</span>
             <ExternalLink className="w-3 h-3 text-slate-400" />
-          </button>
+          </button> */}
         </div>
       </header>
 
